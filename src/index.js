@@ -29,11 +29,13 @@ class Tree {
   }
 
   buildTree(array, start = 0, end = 0) {
+    //If it's first call, sort array
     if (!this.root) {
       array = [...new Set(array)].sort((a, b) => a - b);
       start = 0;
       end = array.length - 1;
     }
+    //If no more nodes return null
     if (start > end) return null;
 
     const mid = Math.floor((start + end) / 2);
@@ -47,9 +49,38 @@ class Tree {
 
     return node;
   }
+
+  insert(value, currentNode = this.root) {
+    if (!this.root) {
+      const node = new Node(value);
+      this.root = node;
+      return;
+    }
+    if (currentNode.data === value) {
+      return;
+    }
+
+    if (value > currentNode.data) {
+      if (!currentNode.right) {
+        const node = new Node(value);
+        currentNode.right = node;
+        return;
+      }
+      this.insert(value, currentNode.right, currentNode);
+    } else {
+      if (!currentNode.left) {
+        const node = new Node(value);
+        currentNode.left = node;
+        return;
+      }
+      this.insert(value, currentNode.left, currentNode);
+    }
+  }
 }
 
 const tree = new Tree();
 
 tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+tree.insert(148);
+tree.insert(148);
 tree.prettyPrint(tree.root);
