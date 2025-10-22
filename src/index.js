@@ -1,6 +1,6 @@
 class Node {
-  constructor(data, left = null, right = null) {
-    this.data = data;
+  constructor(value, left = null, right = null) {
+    this.value = value;
     this.left = left;
     this.right = right;
   }
@@ -22,7 +22,7 @@ class Tree {
         false,
       );
     }
-    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
     if (node.left !== null) {
       this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
@@ -50,31 +50,22 @@ class Tree {
     return node;
   }
 
-  insert(value, currentNode = this.root) {
-    if (!this.root) {
-      const node = new Node(value);
-      this.root = node;
-      return;
-    }
-    if (currentNode.data === value) {
-      return;
+  insert(value) {
+    this.root = this.#insertRecursive(value, this.root);
+  }
+
+  #insertRecursive(value, currentNode) {
+    if (!currentNode) return new Node(value);
+
+    if (currentNode.value === value) return currentNode;
+
+    if (value > currentNode.value) {
+      currentNode.right = this.#insertRecursive(value, currentNode.right);
+    } else {
+      currentNode.left = this.#insertRecursive(value, currentNode.left);
     }
 
-    if (value > currentNode.data) {
-      if (!currentNode.right) {
-        const node = new Node(value);
-        currentNode.right = node;
-        return;
-      }
-      this.insert(value, currentNode.right, currentNode);
-    } else {
-      if (!currentNode.left) {
-        const node = new Node(value);
-        currentNode.left = node;
-        return;
-      }
-      this.insert(value, currentNode.left, currentNode);
-    }
+    return currentNode;
   }
 }
 
