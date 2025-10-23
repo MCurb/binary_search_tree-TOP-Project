@@ -69,9 +69,8 @@ class Tree {
   }
 
   deleteItem(value, currentNode = this.root) {
-    if (!currentNode) {
-      return;
-    }
+    //If tree is empty
+    if (!currentNode) return;
 
     //If leaf node
     if (
@@ -103,6 +102,7 @@ class Tree {
       return currentNode;
     }
 
+    //Recursive Calls
     if (value > currentNode.value) {
       currentNode.right = this.deleteItem(value, currentNode.right);
     } else {
@@ -110,6 +110,21 @@ class Tree {
     }
 
     return currentNode;
+  }
+
+  find(value, currentNode = this.root) {
+    if (!currentNode) return 'Not found';
+
+    if (currentNode.value === value) {
+      return currentNode;
+    }
+
+    //Recursive Calls
+    if (value > currentNode.value) {
+      return this.find(value, currentNode.right);
+    } else {
+      return this.find(value, currentNode.left);
+    }
   }
 }
 
@@ -120,3 +135,4 @@ tree.insert(148);
 tree.insert(148);
 tree.deleteItem(67);
 tree.prettyPrint(tree.root);
+console.log(tree.find(148));
