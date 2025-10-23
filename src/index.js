@@ -67,6 +67,50 @@ class Tree {
 
     return currentNode;
   }
+
+  deleteItem(value, currentNode = this.root) {
+    if (!currentNode) {
+      return;
+    }
+
+    //If leaf node
+    if (
+      currentNode.value === value &&
+      !currentNode.left &&
+      !currentNode.right
+    ) {
+      return null;
+    }
+
+    //If node has one child
+    if (
+      (currentNode.value === value && !currentNode.left) ||
+      !currentNode.right
+    ) {
+      return currentNode.right || currentNode.left;
+    }
+
+    //If node has two children
+    if (currentNode.value === value && currentNode.left && currentNode.right) {
+      let replacement = currentNode.right;
+
+      while (replacement.left) {
+        replacement = replacement.left;
+      }
+
+      this.deleteItem(replacement.value, this.root);
+      currentNode.value = replacement.value;
+      return currentNode;
+    }
+
+    if (value > currentNode.value) {
+      currentNode.right = this.deleteItem(value, currentNode.right);
+    } else {
+      currentNode.left = this.deleteItem(value, currentNode.left);
+    }
+
+    return currentNode;
+  }
 }
 
 const tree = new Tree();
@@ -74,4 +118,5 @@ const tree = new Tree();
 tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 tree.insert(148);
 tree.insert(148);
+tree.deleteItem(67);
 tree.prettyPrint(tree.root);
