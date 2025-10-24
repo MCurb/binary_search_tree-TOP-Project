@@ -126,6 +126,73 @@ class Tree {
       return this.find(value, currentNode.left);
     }
   }
+
+  levelOrderForEach(callback) {
+    if (!this.root) return;
+    if (!callback) {
+      throw new Error('Callback function is required');
+    }
+
+    //I need to traverse the tree in level order using a queue
+    const queue = new Queue();
+    queue.enqueue(this.root);
+
+    while (!queue.isEmpty()) {
+      let firstNode = queue.dequeue();
+      callback(firstNode);
+
+      if (firstNode.left) {
+        queue.enqueue(firstNode.left);
+      }
+      if (firstNode.right) {
+        queue.enqueue(firstNode.right);
+      }
+    }
+  }
+
+  levelOrderForEachRecursive(callback, queue) {
+    if (!this.root) return;
+    if (!callback) {
+      throw new Error('Callback function is required');
+    }
+    if (!queue) {
+      queue = new Queue();
+      queue.enqueue(this.root);
+    }
+    if (queue.isEmpty()) {
+      return;
+    }
+
+    let firstNode = queue.dequeue();
+    callback(firstNode);
+
+    if (firstNode.left) {
+      queue.enqueue(firstNode.left);
+    }
+    if (firstNode.right) {
+      queue.enqueue(firstNode.right);
+    }
+
+    this.levelOrderForEachRecursive(callback, queue);
+  }
+}
+
+class Queue {
+  constructor() {
+    this.array = [];
+  }
+
+  isEmpty() {
+    return this.array.length === 0 ? true : false;
+  }
+
+  enqueue(node) {
+    this.array.push(node);
+  }
+
+  dequeue() {
+    return this.array.shift();
+  }
 }
 
 const tree = new Tree();
@@ -136,3 +203,4 @@ tree.insert(148);
 tree.deleteItem(67);
 tree.prettyPrint(tree.root);
 console.log(tree.find(148));
+tree.levelOrderForEachRecursive((node) => console.log(node.value));
