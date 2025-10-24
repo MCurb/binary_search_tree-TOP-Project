@@ -201,7 +201,7 @@ class Tree {
   }
 
   height(value) {
-    if (!this.root) return 0;
+    if (!this.root) return null;
 
     const node = this.find(value);
     if (!node) return null;
@@ -227,6 +227,25 @@ class Tree {
     }
 
     return treeHeight;
+  }
+
+  depth(value, currentNode = this.root, isValue) {
+    if (!this.root) return null;
+    if (isValue === undefined) {
+      if (!this.find(value)) return null;
+      isValue = true;
+    }
+    if (currentNode.value === value) return 0;
+
+    //Recursive Calls
+    if (value > currentNode.value && currentNode.right) {
+      return 1 + this.depth(value, currentNode.right, isValue);
+    }
+    if (value < currentNode.value && currentNode.left) {
+      return 1 + this.depth(value, currentNode.left, isValue);
+    }
+
+    return null;
   }
 }
 
@@ -263,3 +282,4 @@ console.log(tree.find(148));
 tree.levelOrderForEachRecursive((node) => console.log(node.value));
 tree.postOrderForEach((node) => console.log(node.value));
 console.log('The given value height is', tree.height(8));
+console.log('The given value depth is', tree.depth(3));
