@@ -175,6 +175,30 @@ class Tree {
 
     this.levelOrderForEachRecursive(callback, queue);
   }
+
+  preOrderForEach(callback, node = this.root) {
+    if (!node) return;
+    callback(node);
+
+    this.preOrderForEach(callback, node.left);
+    this.preOrderForEach(callback, node.right);
+  }
+
+  inOrderForEach(callback, node = this.root) {
+    if (!node) return;
+
+    this.inOrderForEach(callback, node.left);
+    callback(node);
+    this.inOrderForEach(callback, node.right);
+  }
+
+  postOrderForEach(callback, node = this.root) {
+    if (!node) return;
+
+    this.postOrderForEach(callback, node.left);
+    this.postOrderForEach(callback, node.right);
+    callback(node);
+  }
 }
 
 class Queue {
@@ -204,3 +228,4 @@ tree.deleteItem(67);
 tree.prettyPrint(tree.root);
 console.log(tree.find(148));
 tree.levelOrderForEachRecursive((node) => console.log(node.value));
+tree.postOrderForEach((node) => console.log(node.value));
