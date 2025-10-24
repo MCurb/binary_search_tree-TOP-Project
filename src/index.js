@@ -113,7 +113,7 @@ class Tree {
   }
 
   find(value, currentNode = this.root) {
-    if (!currentNode) return 'Not found';
+    if (!currentNode) return null;
 
     if (currentNode.value === value) {
       return currentNode;
@@ -199,11 +199,44 @@ class Tree {
     this.postOrderForEach(callback, node.right);
     callback(node);
   }
+
+  height(value) {
+    if (!this.root) return 0;
+
+    const node = this.find(value);
+    if (!node) return null;
+
+    const queue = new Queue();
+    queue.enqueue(node);
+
+    let treeHeight = 0;
+    while (!queue.isEmpty()) {
+      let levelSize = queue.queueLength();
+
+      for (let i = 0; i < levelSize; i++) {
+        const firstNode = queue.dequeue();
+        if (firstNode.left) {
+          queue.enqueue(firstNode.left);
+        }
+        if (firstNode.right) {
+          queue.enqueue(firstNode.right);
+        }
+      }
+
+      treeHeight++;
+    }
+
+    return treeHeight;
+  }
 }
 
 class Queue {
   constructor() {
     this.array = [];
+  }
+
+  queueLength() {
+    return this.array.length;
   }
 
   isEmpty() {
@@ -229,3 +262,4 @@ tree.prettyPrint(tree.root);
 console.log(tree.find(148));
 tree.levelOrderForEachRecursive((node) => console.log(node.value));
 tree.postOrderForEach((node) => console.log(node.value));
+console.log('The given value height is', tree.height(8));
