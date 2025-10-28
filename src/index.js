@@ -226,7 +226,7 @@ class Tree {
       treeHeight++;
     }
 
-    return treeHeight;
+    return treeHeight - 1;
   }
 
   depth(value, currentNode = this.root, isValue) {
@@ -247,6 +247,8 @@ class Tree {
 
     return null;
   }
+
+  isBalanced() {}
 }
 
 class Queue {
@@ -281,5 +283,5 @@ tree.prettyPrint(tree.root);
 console.log(tree.find(148));
 tree.levelOrderForEachRecursive((node) => console.log(node.value));
 tree.postOrderForEach((node) => console.log(node.value));
-console.log('The given value height is', tree.height(8));
-console.log('The given value depth is', tree.depth(3));
+console.log('The given value height is', tree.height(148));
+console.log('The given value depth is', tree.depth(6345));
