@@ -291,6 +291,15 @@ class Tree {
 
     return this.isBalanced(queue);
   }
+
+  rebalance() {
+    let treeArray = [];
+    this.levelOrderForEach((node) => {
+      treeArray.push(node.value);
+    });
+    this.root = null;
+    this.buildTree(treeArray);
+  }
 }
 
 class Queue {
@@ -321,6 +330,8 @@ tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 tree.insert(148);
 tree.insert(148);
 tree.insert(2);
+tree.insert(11651);
+tree.insert(35655);
 tree.deleteItem(67);
 tree.prettyPrint(tree.root);
 console.log(tree.find(148));
@@ -328,4 +339,7 @@ tree.levelOrderForEachRecursive((node) => console.log(node.value));
 tree.postOrderForEach((node) => console.log(node.value));
 console.log('The given value height is', tree.height(4));
 console.log('The given value depth is', tree.depth(6345));
+console.log(tree.isBalanced());
+tree.rebalance();
+tree.prettyPrint(tree.root);
 console.log(tree.isBalanced());
