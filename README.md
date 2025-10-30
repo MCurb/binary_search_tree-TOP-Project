@@ -37,13 +37,13 @@ The main structure that stores nodes and provides operations to interact with th
 - `buildTree(array)` → create a balanced BST from an array
 - `insert(value)` → insert a new node
 - `deleteItem(value)` → remove a node
-- `find(value)` → search for a value
+- `find(value)` → search for a node with the value
 - `levelOrderForEach(callback)` → breadth-first traversal
 - `preOrderForEach(callback)` → depth-first (root → left → right)
 - `inOrderForEach(callback)` → depth-first (left → root → right)
 - `postOrderForEach(callback)` → depth-first (left → right → root)
-- `height(node)` → find the height of a given node
-- `depth(node)` → find how deep a node is from the root
+- `height(value)` → find the height of the node with the value
+- `depth(value)` → find how deep a node is from the root
 - `isBalanced()` → check if the tree is balanced
 - `rebalance()` → balance an unbalanced tree
 
