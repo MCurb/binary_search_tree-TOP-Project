@@ -49,59 +49,38 @@ export class Tree {
 
     if (currentNode.value === value) return currentNode;
 
-    if (value > currentNode.value) {
-      currentNode.right = this.#insertRecursive(value, currentNode.right);
-    } else {
+    if (value < currentNode.value) {
       currentNode.left = this.#insertRecursive(value, currentNode.left);
+    } else {
+      currentNode.right = this.#insertRecursive(value, currentNode.right);
     }
 
     return currentNode;
   }
 
   deleteItem(value, currentNode = this.root) {
-    //If tree is empty
-    if (!currentNode) return;
+    if (!currentNode) return null;
 
-    //If node doesn't exist
-    if (!this.find(value)) {
-      return;
-    }
-
-    //If leaf node
-    if (
-      currentNode.value === value &&
-      !currentNode.left &&
-      !currentNode.right
-    ) {
-      return null;
-    }
-
-    //If node has one child
-    if (
-      (currentNode.value === value && !currentNode.left) ||
-      !currentNode.right
-    ) {
-      return currentNode.right || currentNode.left;
-    }
-
-    //If node has two children
-    if (currentNode.value === value && currentNode.left && currentNode.right) {
-      let replacement = currentNode.right;
-
-      while (replacement.left) {
-        replacement = replacement.left;
-      }
-
-      this.deleteItem(replacement.value, this.root);
-      currentNode.value = replacement.value;
-      return currentNode;
-    }
-
-    //Recursive Calls
-    if (value > currentNode.value) {
+    if (value < currentNode.value) {
+      currentNode.left = this.deleteItem(value, currentNode.left);
+    } else if (value > currentNode.value) {
       currentNode.right = this.deleteItem(value, currentNode.right);
     } else {
-      currentNode.left = this.deleteItem(value, currentNode.left);
+      //Node found, handle deletion cases:
+
+      //Leaf node:
+      if (!currentNode.left && !currentNode.right) return null;
+
+      //If node has one child
+      if (!currentNode.left) return currentNode.right;
+      if (!currentNode.right) return currentNode.left;
+
+      //If node has two children
+      let replacement = currentNode.right;
+
+      while (replacement.left) replacement = replacement.left;
+      currentNode.value = replacement.value;
+      currentNode.right = this.deleteItem(replacement.value, currentNode.right);
     }
 
     return currentNode;
