@@ -72,6 +72,11 @@ class Tree {
     //If tree is empty
     if (!currentNode) return;
 
+    //If node doesn't exist
+    if (!this.find(value)) {
+      return;
+    }
+
     //If leaf node
     if (
       currentNode.value === value &&
@@ -177,6 +182,9 @@ class Tree {
   }
 
   preOrderForEach(callback, node = this.root) {
+    if (!callback) {
+      throw new Error('Callback function is required');
+    }
     if (!node) return;
     callback(node);
 
@@ -185,6 +193,9 @@ class Tree {
   }
 
   inOrderForEach(callback, node = this.root) {
+    if (!callback) {
+      throw new Error('Callback function is required');
+    }
     if (!node) return;
 
     this.inOrderForEach(callback, node.left);
@@ -193,6 +204,9 @@ class Tree {
   }
 
   postOrderForEach(callback, node = this.root) {
+    if (!callback) {
+      throw new Error('Callback function is required');
+    }
     if (!node) return;
 
     this.postOrderForEach(callback, node.left);
@@ -248,7 +262,35 @@ class Tree {
     return null;
   }
 
-  isBalanced() {}
+  isBalanced(queue) {
+    if (!this.root) return;
+    if (!queue) {
+      queue = new Queue();
+      queue.enqueue(this.root);
+    }
+    if (queue.isEmpty()) {
+      return true;
+    }
+
+    let firstNode = queue.dequeue();
+    let heightLeft;
+    let heightRight;
+
+    if (firstNode.left) {
+      heightLeft = this.height(firstNode.left.value);
+      queue.enqueue(firstNode.left);
+    }
+    if (firstNode.right) {
+      heightRight = this.height(firstNode.right.value);
+      queue.enqueue(firstNode.right);
+    }
+
+    if (Math.abs(heightLeft - heightRight) > 1) {
+      return false;
+    }
+
+    return this.isBalanced(queue);
+  }
 }
 
 class Queue {
@@ -278,10 +320,12 @@ const tree = new Tree();
 tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 tree.insert(148);
 tree.insert(148);
+tree.insert(2);
 tree.deleteItem(67);
 tree.prettyPrint(tree.root);
 console.log(tree.find(148));
 tree.levelOrderForEachRecursive((node) => console.log(node.value));
 tree.postOrderForEach((node) => console.log(node.value));
-console.log('The given value height is', tree.height(148));
+console.log('The given value height is', tree.height(4));
 console.log('The given value depth is', tree.depth(6345));
+console.log(tree.isBalanced());
