@@ -232,7 +232,27 @@ export class Tree {
       maxHeightDiff = maxHeightDiff < currentDiff ? currentDiff : maxHeightDiff;
     });
 
-    return maxHeightDiff > 1 ? false : true;
+    return maxHeightDiff <= 1;
+  }
+
+  isBalancedRecursive(currentNode = this.root) {
+    if (currentNode === null) return true;
+
+    const leftHeight = this._height(currentNode.left);
+    const rightHeight = this._height(currentNode.right);
+
+    const balanceFactor = Math.abs(leftHeight - rightHeight);
+
+    return (
+      balanceFactor <= 1 &&
+      this.isBalancedRecursive(currentNode.left) &&
+      this.isBalancedRecursive(currentNode.right)
+    );
+  }
+
+  _height(node) {
+    if (node === null) return -1;
+    return 1 + Math.max(this._height(node.left), this._height(node.right));
   }
 
   rebalance() {
@@ -240,7 +260,6 @@ export class Tree {
 
     this.levelOrderForEach((node) => treeArray.push(node.value));
 
-    this.root = null;
     this.buildTree(treeArray);
   }
 }

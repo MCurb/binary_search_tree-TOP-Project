@@ -5,7 +5,7 @@ const tree = new Tree();
 //Creating balanced Binary Search Tree
 tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67]);
 tree.prettyPrint(tree.root);
-console.log('Is the tree balanced?', tree.isBalanced());
+console.log('Is the tree balanced?', tree.isBalancedRecursive());
 
 //Traverse the tree with different algorithms
 console.log('Tree Traversals:');
@@ -32,13 +32,13 @@ tree.insert(35655);
 tree.deleteItem(67);
 
 tree.prettyPrint(tree.root);
-console.log('Is the tree balanced?', tree.isBalanced());
+console.log('Is the tree balanced?', tree.isBalancedRecursive());
 
 //Rebalance Tree
 console.log('Rebalancing Tree...');
 tree.rebalance();
 tree.prettyPrint(tree.root);
-console.log('Is the tree balanced?', tree.isBalanced());
+console.log('Is the tree balanced?', tree.isBalancedRecursive());
 
 //Trying different Tree methods
 console.log('Trying more Tree methods:');
