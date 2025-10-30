@@ -256,34 +256,26 @@ export class Tree {
     return null;
   }
 
-  isBalanced(queue) {
-    if (!this.root) return;
-    if (!queue) {
-      queue = new Queue();
-      queue.enqueue(this.root);
-    }
-    if (queue.isEmpty()) {
-      return true;
-    }
+  isBalanced() {
+    let leftHeight = 0;
+    let rightHeight = 0;
+    let maxHeightDiff = 0;
 
-    let firstNode = queue.dequeue();
-    let heightLeft;
-    let heightRight;
+    this.levelOrderForEach((node) => {
+      // Left Height
+      if (node.left) leftHeight = this.height(node.left.value);
 
-    if (firstNode.left) {
-      heightLeft = this.height(firstNode.left.value);
-      queue.enqueue(firstNode.left);
-    }
-    if (firstNode.right) {
-      heightRight = this.height(firstNode.right.value);
-      queue.enqueue(firstNode.right);
-    }
+      // Right Height
+      if (node.right) rightHeight = this.height(node.right.value);
 
-    if (Math.abs(heightLeft - heightRight) > 1) {
-      return false;
-    }
+      //Height difference
+      const currentDiff = Math.abs(leftHeight - rightHeight);
 
-    return this.isBalanced(queue);
+      // Always keep the heighest difference
+      maxHeightDiff = maxHeightDiff < currentDiff ? currentDiff : maxHeightDiff;
+    });
+
+    return maxHeightDiff > 1 ? false : true;
   }
 
   rebalance() {
