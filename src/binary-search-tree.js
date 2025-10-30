@@ -115,12 +115,8 @@ export class Tree {
       let firstNode = queue.dequeue();
       callback(firstNode);
 
-      if (firstNode.left) {
-        queue.enqueue(firstNode.left);
-      }
-      if (firstNode.right) {
-        queue.enqueue(firstNode.right);
-      }
+      if (firstNode.left) queue.enqueue(firstNode.left);
+      if (firstNode.right) queue.enqueue(firstNode.right);
     }
   }
 
@@ -133,19 +129,13 @@ export class Tree {
       queue = new Queue();
       queue.enqueue(this.root);
     }
-    if (queue.isEmpty()) {
-      return;
-    }
+    if (queue.isEmpty()) return;
 
     let firstNode = queue.dequeue();
     callback(firstNode);
 
-    if (firstNode.left) {
-      queue.enqueue(firstNode.left);
-    }
-    if (firstNode.right) {
-      queue.enqueue(firstNode.right);
-    }
+    if (firstNode.left) queue.enqueue(firstNode.left);
+    if (firstNode.right) queue.enqueue(firstNode.right);
 
     this.levelOrderForEachRecursive(callback, queue);
   }
@@ -155,8 +145,8 @@ export class Tree {
       throw new Error('Callback function is required');
     }
     if (!node) return;
-    callback(node);
 
+    callback(node);
     this.preOrderForEach(callback, node.left);
     this.preOrderForEach(callback, node.right);
   }
@@ -198,12 +188,9 @@ export class Tree {
 
       for (let i = 0; i < levelSize; i++) {
         const firstNode = queue.dequeue();
-        if (firstNode.left) {
-          queue.enqueue(firstNode.left);
-        }
-        if (firstNode.right) {
-          queue.enqueue(firstNode.right);
-        }
+
+        if (firstNode.left) queue.enqueue(firstNode.left);
+        if (firstNode.right) queue.enqueue(firstNode.right);
       }
 
       treeHeight++;
@@ -212,23 +199,16 @@ export class Tree {
     return treeHeight - 1;
   }
 
-  depth(value, currentNode = this.root, isValue) {
-    if (!this.root) return null;
-    if (isValue === undefined) {
-      if (!this.find(value)) return null;
-      isValue = true;
-    }
-    if (currentNode.value === value) return 0;
+  depth(value, currentNode = this.root, currentDepth = 0) {
+    if (!currentNode) return null;
+    if (currentNode.value === value) return currentDepth;
 
     //Recursive Calls
-    if (value > currentNode.value && currentNode.right) {
-      return 1 + this.depth(value, currentNode.right, isValue);
+    if (value > currentNode.value) {
+      return this.depth(value, currentNode.right, currentDepth + 1);
+    } else {
+      return this.depth(value, currentNode.left, currentDepth + 1);
     }
-    if (value < currentNode.value && currentNode.left) {
-      return 1 + this.depth(value, currentNode.left, isValue);
-    }
-
-    return null;
   }
 
   isBalanced() {
