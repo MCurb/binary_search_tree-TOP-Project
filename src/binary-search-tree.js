@@ -22,24 +22,20 @@ export class Tree {
     }
   }
 
-  buildTree(array, start = 0, end = 0) {
-    //If it's first call, sort array
-    if (!this.root) {
-      array = [...new Set(array)].sort((a, b) => a - b);
-      start = 0;
-      end = array.length - 1;
-    }
+  buildTree(array) {
+    const sortedArr = [...new Set(array)].sort((a, b) => a - b);
+    this.root = this.#buildTreeRecursive(sortedArr, 0, sortedArr.length - 1);
+  }
+
+  #buildTreeRecursive(array, start, end) {
     //If no more nodes return null
     if (start > end) return null;
 
     const mid = Math.floor((start + end) / 2);
     const node = new Node(array[mid]);
 
-    if (!this.root) {
-      this.root = node;
-    }
-    node.left = this.buildTree(array, start, mid - 1);
-    node.right = this.buildTree(array, mid + 1, end);
+    node.left = this.#buildTreeRecursive(array, start, mid - 1);
+    node.right = this.#buildTreeRecursive(array, mid + 1, end);
 
     return node;
   }
@@ -257,6 +253,8 @@ export class Tree {
   }
 
   isBalanced() {
+    if (!this.root) return null;
+
     let leftHeight = 0;
     let rightHeight = 0;
     let maxHeightDiff = 0;
