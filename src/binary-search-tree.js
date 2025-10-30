@@ -288,9 +288,9 @@ export class Tree {
 
   rebalance() {
     let treeArray = [];
-    this.levelOrderForEach((node) => {
-      treeArray.push(node.value);
-    });
+
+    this.levelOrderForEach((node) => treeArray.push(node.value));
+
     this.root = null;
     this.buildTree(treeArray);
   }
