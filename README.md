@@ -49,11 +49,11 @@ The main structure that stores nodes and provides operations to interact with th
 
 ## 🔧 Features
   
-✅ Build a **balanced tree** automatically from an array
-✅ Handle **insertions and deletions** while preserving BST rules
-✅ **Traverse** the tree in multiple orders
-✅ **Rebalance** the tree
-✅ Includes a **prettyPrint()** helper to visualize the structure
+- ✅ Build a **balanced tree** automatically from an array
+- ✅ Handle **insertions and deletions** while preserving BST rules
+- ✅ **Traverse** the tree in multiple orders
+- ✅ **Rebalance** the tree
+- ✅ Includes a **prettyPrint()** helper to visualize the structure
 
 ## 📚 Concepts Reinforced
 
@@ -65,5 +65,6 @@ The main structure that stores nodes and provides operations to interact with th
 
 ## 🧑‍💻 Author
 
-**Marcos**
+**Marcos Curbeco**
+
 [The Odin Project Student](https://www.theodinproject.com/dashboard) | Web Developer in Progress
